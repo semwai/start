@@ -7,21 +7,34 @@
 #### [Можно подключить телеграм бота](https://github.com/laravel-notification-channels/telegram)
 
 
-`php artisan make:notification NewUser`
+## Требования:
+Установленная авторизация.
 
+`php artisan make:notification NewUser`  
+`php artisan notifications:table`  
+`php artisan migrate`  
  
+
+app/Notifications/NewUser.php :
 ```
 //меняем канал связи на более простой.
 public function via($notifiable)
 {
     return [/*'mail', */'database'];
 }
+
+public function toArray($notifiable)
+{
+    return [
+        'message' => 'Аккаунт успешно зарегистрирован.'
+    ];
+}
 ```
 
 ## Пример - отправка уведомления каждый раз при заходе на /, уведомления отображаются в /home 
 
 
-routes/web.php
+routes/web.php :
 ```
 Route::get('/', function () {
     $user = Auth::user();
@@ -34,7 +47,10 @@ Route::get('/home', function () {
     return view('home', ["notifications" => $user->unreadNotifications] );
 });
 ```
-views/home.blade.php
+
+`Auth::user()` != `null`, если произведена авторизация. 
+
+views/home.blade.php :
 ```
 ...
 @foreach ($notifications as $notification)

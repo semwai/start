@@ -1,5 +1,7 @@
 # Создание laravel проектa
 
+#### [Гайды](https://laravel.demiart.ru/)
+
 ### Базовая настройка
 
 Проверено для wsl ubuntu20.04 LTS
